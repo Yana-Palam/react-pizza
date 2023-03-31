@@ -11,8 +11,21 @@ function HomePage() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchItems = () => {
-    fetch(BASE_URL)
+  const [categoryId, setCategoryId] = useState(0);
+  const [sortValue, setSortValue] = useState({
+    name: "популярністю (за зменшенням)",
+    sortProperty: "rating",
+    order: "desc",
+  });
+
+  const fetchItems = (categoryId, sortValue) => {
+    setIsLoading(true);
+
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+    const sortBy = sortValue.sortProperty;
+    const order = sortValue.order;
+
+    fetch(BASE_URL + `?${category}&sortBy=${sortBy}&order=${order}`)
       .then((res) => res.json())
       .then((data) => {
         setItems(data);
@@ -21,15 +34,18 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetchItems();
+    fetchItems(categoryId, sortValue);
     window.scrollTo(0, 0);
-  }, []);
+  }, [categoryId, sortValue]);
 
   return (
     <>
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories
+          value={categoryId}
+          onChangeCategory={(id) => setCategoryId(id)}
+        />
+        <Sort value={sortValue} onChangeSort={(value) => setSortValue(value)} />
       </div>
       <h2 className="content__title">Всі піци</h2>
       <div className="content__items">
