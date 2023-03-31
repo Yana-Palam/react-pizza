@@ -7,7 +7,7 @@ import Skeleton from "../../components/PizzaBlock/Skeleton";
 
 const BASE_URL = "https://641d88f14366dd7def402699.mockapi.io/api/items";
 
-function HomePage() {
+function HomePage({ searchValue = "" }) {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,14 +18,15 @@ function HomePage() {
     order: "desc",
   });
 
-  const fetchItems = (categoryId, sortValue) => {
+  const fetchItems = (categoryId, sortValue, searchValue) => {
     setIsLoading(true);
 
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const sortBy = sortValue.sortProperty;
     const order = sortValue.order;
+    const search = searchValue && `&search=${searchValue}`;
 
-    fetch(BASE_URL + `?${category}&sortBy=${sortBy}&order=${order}`)
+    fetch(BASE_URL + `?${category}&sortBy=${sortBy}&order=${order}${search}`)
       .then((res) => res.json())
       .then((data) => {
         setItems(data);
@@ -34,9 +35,9 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetchItems(categoryId, sortValue);
+    fetchItems(categoryId, sortValue, searchValue);
     window.scrollTo(0, 0);
-  }, [categoryId, sortValue]);
+  }, [categoryId, sortValue, searchValue]);
 
   return (
     <>
@@ -50,7 +51,7 @@ function HomePage() {
       <h2 className="content__title">Всі піци</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(8)].map((item) => <Skeleton />)
+          ? [...new Array(8)].map((item, index) => <Skeleton key={index} />)
           : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
     </>

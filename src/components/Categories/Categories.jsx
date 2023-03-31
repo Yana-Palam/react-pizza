@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function Categories({ value, onChangeCategory }) {
   const categories = [
     "Всі",
@@ -10,11 +8,6 @@ function Categories({ value, onChangeCategory }) {
     "Закриті",
   ];
 
-  // const [activeIndex, setActiveIndex] = useState(0);
-
-  // const onClickCategory = (index) => {
-  //   setActiveIndex(index);
-  // };
   return (
     <div className="categories">
       <ul>

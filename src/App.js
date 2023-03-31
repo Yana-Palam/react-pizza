@@ -1,20 +1,25 @@
 import "./scss/app.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useState } from "react";
 import ErrorPage from "./components/ErrorPage";
 import Layout from "./components/Layout/Layout";
 import HomePage from "./pages/HomePage/HomePage";
 import CartPage from "./pages/CartPage/CartPage";
 
 function App() {
+  const [searchValue, setSearchValue] = useState("");
+
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <Layout searchValue={searchValue} setSearchValue={setSearchValue} />
+      ),
       errorElement: <ErrorPage />,
       children: [
         {
           index: true,
-          element: <HomePage />,
+          element: <HomePage searchValue={searchValue} />,
         },
         {
           path: "/cart",

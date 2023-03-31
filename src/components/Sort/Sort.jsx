@@ -34,9 +34,8 @@ function Sort({ value, onChangeSort }) {
     },
   ];
   const [isVisible, setIsVisible] = useState(false);
-  // const [selectedValue, setSelectedValue] = useState(sortValues[0]);
+
   const onSelectValue = (value) => {
-    // setSelectedValue(value);
     onChangeSort(value);
     setIsVisible(false);
   };
