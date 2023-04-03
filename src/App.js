@@ -9,29 +9,34 @@ import CartPage from "./pages/CartPage/CartPage";
 function App() {
   const [searchValue, setSearchValue] = useState("");
 
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <Layout searchValue={searchValue} setSearchValue={setSearchValue} />
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <HomePage searchValue={searchValue} />,
+          },
+          {
+            path: "/cart",
+            element: <CartPage />,
+          },
+        ],
+      },
+    ],
     {
-      path: "/",
-      element: (
-        <Layout searchValue={searchValue} setSearchValue={setSearchValue} />
-      ),
-      errorElement: <ErrorPage />,
-      children: [
-        {
-          index: true,
-          element: <HomePage searchValue={searchValue} />,
-        },
-        {
-          path: "/cart",
-          element: <CartPage />,
-        },
-      ],
-    },
-  ]);
+      basename: "/react-pizza",
+    }
+  );
 
   return (
     <div className="App">
-      <RouterProvider router={router} basename="/react-pizza" />
+      <RouterProvider router={router} />
     </div>
   );
 }
