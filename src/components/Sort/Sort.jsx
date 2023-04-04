@@ -1,44 +1,53 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectSort } from "../../redux/filters/filtersSelectors";
+import { setSortValue } from "../../redux/filters/filtersSlice";
 
-function Sort({ value, onChangeSort }) {
-  const sortValues = [
-    {
-      name: "популярністю (за зменшенням)",
-      sortProperty: "rating",
-      order: "desc",
-    },
-    {
-      name: "популярністю (за збільшенням)",
-      sortProperty: "rating",
-      order: "asc",
-    },
-    {
-      name: "ціною (за зменшенням)",
-      sortProperty: "price",
-      order: "desc",
-    },
-    {
-      name: "ціною (за збільшенням)",
-      sortProperty: "price",
-      order: "asc",
-    },
-    {
-      name: "алфавітом (від А до Я)",
-      sortProperty: "title",
-      order: "asc",
-    },
-    {
-      name: "алфавітом (від Я до А)",
-      sortProperty: "title",
-      order: "desc",
-    },
-  ];
+const sortValues = [
+  {
+    name: "популярністю (за зменшенням)",
+    sortProperty: "rating",
+    order: "desc",
+  },
+  {
+    name: "популярністю (за збільшенням)",
+    sortProperty: "rating",
+    order: "asc",
+  },
+  {
+    name: "ціною (за зменшенням)",
+    sortProperty: "price",
+    order: "desc",
+  },
+  {
+    name: "ціною (за збільшенням)",
+    sortProperty: "price",
+    order: "asc",
+  },
+  {
+    name: "алфавітом (від А до Я)",
+    sortProperty: "title",
+    order: "asc",
+  },
+  {
+    name: "алфавітом (від Я до А)",
+    sortProperty: "title",
+    order: "desc",
+  },
+];
+
+function Sort() {
   const [isVisible, setIsVisible] = useState(false);
 
+  const dispath = useDispatch();
+
+  const sortValue = useSelector(selectSort);
+
   const onSelectValue = (value) => {
-    onChangeSort(value);
+    dispath(setSortValue(value));
     setIsVisible(false);
   };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -63,7 +72,7 @@ function Sort({ value, onChangeSort }) {
             setIsVisible((prev) => !prev);
           }}
         >
-          {value.name}
+          {sortValue.name}
         </span>
       </div>
       {isVisible && (
@@ -76,8 +85,8 @@ function Sort({ value, onChangeSort }) {
                 }}
                 key={index}
                 className={
-                  obj.sortProperty === value.sortProperty &&
-                  obj.order === value.order
+                  obj.sortProperty === sortValue.sortProperty &&
+                  obj.order === sortValue.order
                     ? "active"
                     : ""
                 }

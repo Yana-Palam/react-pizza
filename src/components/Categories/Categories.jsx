@@ -1,12 +1,25 @@
-function Categories({ value, onChangeCategory }) {
-  const categories = [
-    "Всі",
-    "М'ясні",
-    "Вегетаріанські",
-    "Гриль",
-    "Гострі",
-    "Закриті",
-  ];
+import { useSelector, useDispatch } from "react-redux";
+
+import { selectCategoryId } from "../../redux/filters/filtersSelectors";
+import { setCategoryId } from "../../redux/filters/filtersSlice";
+
+const categories = [
+  "Всі",
+  "М'ясні",
+  "Вегетаріанські",
+  "Гриль",
+  "Гострі",
+  "Закриті",
+];
+
+function Categories() {
+  const dispath = useDispatch();
+
+  const categoryId = useSelector(selectCategoryId);
+
+  const onChangeCategory = (id) => {
+    dispath(setCategoryId(id));
+  };
 
   return (
     <div className="categories">
@@ -17,7 +30,7 @@ function Categories({ value, onChangeCategory }) {
               onChangeCategory(index);
             }}
             key={index}
-            className={value === index ? "active" : ""}
+            className={categoryId === index ? "active" : ""}
           >
             {item}
           </li>
