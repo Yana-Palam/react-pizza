@@ -1,6 +1,9 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import qs from "qs";
+import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setFilters } from "../../redux/filters/filtersSlice";
 import {
   selectCategoryId,
   selectSort,
@@ -15,6 +18,13 @@ import Skeleton from "../../components/PizzaBlock/Skeleton";
 const BASE_URL = "https://641d88f14366dd7def402699.mockapi.io/api/items";
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const isSearchParams = useRef(false);
+  const isMounted = useRef(false);
+
   const categoryId = useSelector(selectCategoryId);
   const sortValue = useSelector(selectSort);
   const searchValue = useSelector(selectSearchValue);
@@ -41,8 +51,33 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetchItems(categoryId, sortValue, searchValue);
-    window.scrollTo(0, 0);
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        categoryId,
+        sort: sortValue,
+      });
+
+      navigate(`?${queryString}`);
+    }
+
+    isMounted.current = true;
+  }, [categoryId, sortValue, searchValue]);
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    if (queryString) {
+      const params = qs.parse(queryString.substring(1));
+      console.log(params);
+      dispatch(setFilters(params));
+      isSearchParams.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isSearchParams.current) {
+      fetchItems(categoryId, sortValue, searchValue);
+      window.scrollTo(0, 0);
+    }
   }, [categoryId, sortValue, searchValue]);
 
   return (
