@@ -7,20 +7,18 @@ import HomePage from "./pages/HomePage/HomePage";
 import CartPage from "./pages/CartPage/CartPage";
 
 function App() {
-  const [searchValue, setSearchValue] = useState("");
+  // const [searchValue, setSearchValue] = useState("");
 
   const router = createBrowserRouter(
     [
       {
         path: "/",
-        element: (
-          <Layout searchValue={searchValue} setSearchValue={setSearchValue} />
-        ),
+        element: <Layout />,
         errorElement: <ErrorPage />,
         children: [
           {
             index: true,
-            element: <HomePage searchValue={searchValue} />,
+            element: <HomePage />,
           },
           {
             path: "/cart",

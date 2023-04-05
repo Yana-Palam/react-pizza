@@ -39,12 +39,12 @@ const sortValues = [
 function Sort() {
   const [isVisible, setIsVisible] = useState(false);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const sortValue = useSelector(selectSort);
 
   const onSelectValue = (value) => {
-    dispath(setSortValue(value));
+    dispatch(setSortValue(value));
     setIsVisible(false);
   };
 

@@ -1,9 +1,11 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   selectCategoryId,
   selectSort,
 } from "../../redux/filters/filtersSelectors";
+import { selectSearchValue } from "../../redux/search/searchSelectors";
 
 import Categories from "../../components/Categories";
 import Sort from "../../components/Sort";
@@ -12,26 +14,30 @@ import Skeleton from "../../components/PizzaBlock/Skeleton";
 
 const BASE_URL = "https://641d88f14366dd7def402699.mockapi.io/api/items";
 
-function HomePage({ searchValue = "" }) {
+function HomePage() {
   const categoryId = useSelector(selectCategoryId);
   const sortValue = useSelector(selectSort);
+  const searchValue = useSelector(selectSearchValue);
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchItems = (categoryId, sortValue, searchValue) => {
+  const fetchItems = async (categoryId, sortValue, searchValue) => {
     setIsLoading(true);
 
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const { sortProperty: sortBy, order } = sortValue;
     const search = searchValue && `&search=${searchValue}`;
 
-    fetch(BASE_URL + `?${category}&sortBy=${sortBy}&order=${order}${search}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
-        setIsLoading(false);
-      });
+    try {
+      const { data } = await axios.get(
+        BASE_URL + `?${category}&sortBy=${sortBy}&order=${order}${search}`
+      );
+      setItems(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

@@ -13,12 +13,12 @@ const categories = [
 ];
 
 function Categories() {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const categoryId = useSelector(selectCategoryId);
 
   const onChangeCategory = (id) => {
-    dispath(setCategoryId(id));
+    dispatch(setCategoryId(id));
   };
 
   return (
