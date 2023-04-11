@@ -1,21 +1,23 @@
-import axios from "axios";
 import qs from "qs";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFilters } from "../../redux/filters/filtersSlice";
+import { fetchPizzas } from "../../redux/pizzas/pizzasOperations";
 import {
   selectCategoryId,
   selectSort,
 } from "../../redux/filters/filtersSelectors";
 import { selectSearchValue } from "../../redux/search/searchSelectors";
+import {
+  selectPizzasItems,
+  selectIsLoading,
+} from "../../redux/pizzas/pizzasSelectors";
 
 import Categories from "../../components/Categories";
 import Sort from "../../components/Sort";
 import PizzaBlock from "../../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../../components/PizzaBlock/Skeleton";
-
-const BASE_URL = "https://641d88f14366dd7def402699.mockapi.io/api/items";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -28,26 +30,11 @@ function HomePage() {
   const categoryId = useSelector(selectCategoryId);
   const sortValue = useSelector(selectSort);
   const searchValue = useSelector(selectSearchValue);
+  const items = useSelector(selectPizzasItems);
+  const isLoading = useSelector(selectIsLoading);
 
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchItems = async (categoryId, sortValue, searchValue) => {
-    setIsLoading(true);
-
-    const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const { sortProperty: sortBy, order } = sortValue;
-    const search = searchValue && `&search=${searchValue}`;
-
-    try {
-      const { data } = await axios.get(
-        BASE_URL + `?${category}&sortBy=${sortBy}&order=${order}${search}`
-      );
-      setItems(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+  const getPizzas = async (categoryId, sortValue, searchValue) => {
+    dispatch(fetchPizzas({ categoryId, sortValue, searchValue }));
   };
 
   useEffect(() => {
@@ -75,7 +62,7 @@ function HomePage() {
 
   useEffect(() => {
     if (!isSearchParams.current) {
-      fetchItems(categoryId, sortValue, searchValue);
+      getPizzas(categoryId, sortValue, searchValue);
       window.scrollTo(0, 0);
     }
   }, [categoryId, sortValue, searchValue]);
