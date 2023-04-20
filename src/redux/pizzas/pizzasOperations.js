@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://641d88f14366dd7def402699.mockapi.io/api/items";
+const BASE_URL = "https://644109d7792fe886a89c8d4e.mockapi.io/api/pizzas";
 
 export const fetchPizzas = createAsyncThunk(
   "pizzas/fetchItems",
