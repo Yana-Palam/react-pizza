@@ -7,9 +7,7 @@ function EmptyCart() {
   return (
     <div className="container container--cart">
       <div className="cart cart--empty">
-        <h2>
-          Корзина пуста <icon>😕</icon>
-        </h2>
+        <h2>Корзина пуста 😕</h2>
         <p>
           Ймовірно, Ви ще не замовляли піцу.
           <br />

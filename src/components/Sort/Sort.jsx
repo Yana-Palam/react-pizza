@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSort } from "../../redux/filters/filtersSelectors";
 import { setSortValue } from "../../redux/filters/filtersSlice";
@@ -37,19 +37,34 @@ const sortValues = [
 ];
 
 function Sort() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const sortRef = useRef();
 
   const dispatch = useDispatch();
 
   const sortValue = useSelector(selectSort);
 
+  useEffect(() => {
+    const onClickOutside = (e) => {
+      if (e.target.offsetParent !== sortRef.current) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", onClickOutside);
+
+    return () => {
+      document.removeEventListener("click", onClickOutside);
+    };
+  }, []);
+
   const onSelectValue = (value) => {
     dispatch(setSortValue(value));
-    setIsVisible(false);
+    setIsOpen(false);
   };
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <div>
           <svg
@@ -69,13 +84,13 @@ function Sort() {
 
         <span
           onClick={() => {
-            setIsVisible((prev) => !prev);
+            setIsOpen((prev) => !prev);
           }}
         >
           {sortValue.name}
         </span>
       </div>
-      {isVisible && (
+      {isOpen && (
         <div className="sort__popup">
           <ul>
             {sortValues.map((obj, index) => (
