@@ -4,8 +4,11 @@
   position: relative;
 
   @media (min-width: 450px) {
-    width: 400px;
+    width: 370px;
   }
+  // @media (min-width: 620px) {
+  //   width: 400px;
+  // }
 }
 
 .input {

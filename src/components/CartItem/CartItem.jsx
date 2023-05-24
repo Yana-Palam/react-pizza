@@ -8,6 +8,7 @@ import SvgCircle from "../svg/SvgCircle";
 function CartItem({ pizza }) {
   const { id, count, title, imageUrl, price, type, size } = pizza;
   const dispatch = useDispatch();
+  const isBtnDisabled = count === 1;
 
   return (
     <div className="cart__item">
@@ -24,23 +25,25 @@ function CartItem({ pizza }) {
       </div>
       <div className="cart__item-wrapper">
         <div className="cart__item-count">
-          <div
+          <button
+            type="button"
+            disabled={isBtnDisabled}
             onClick={() => {
               dispatch(minusItem(id));
             }}
             className="button button--outline button--circle cart__item-count-minus"
           >
             <SvgMinus />
-          </div>
+          </button>
           <b>{count}</b>
-          <div
+          <button
             onClick={() => {
               dispatch(plusItem(id));
             }}
             className="button button--outline button--circle cart__item-count-plus"
           >
             <SvgPlus />
-          </div>
+          </button>
         </div>
         <div className="cart__item-price">
           <b>{price * count} ₴</b>

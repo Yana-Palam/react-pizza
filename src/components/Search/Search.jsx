@@ -3,11 +3,12 @@ import s from "./Search.module.scss";
 import debounce from "lodash.debounce";
 import { useDispatch } from "react-redux";
 import { setSearchValue } from "../../redux/search/searchSlice";
+import { fetchPizzas } from "../../redux/pizzas/pizzasOperations";
 
 import { ReactComponent as SearchIcon } from "../../assets/img/search_icon.svg";
 import { ReactComponent as ClearIcon } from "../../assets/img/close_icon.svg";
 
-const DEBOUNCE_DELAY = 300;
+const DEBOUNCE_DELAY = 150;
 
 function Search() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Search() {
     setSearch("");
     dispatch(setSearchValue(""));
     inputRef.current.focus();
+    dispatch(fetchPizzas());
   };
 
   const updateSearchValue = useCallback(
@@ -29,7 +31,8 @@ function Search() {
     []
   );
 
-  const onChangeInput = (value) => {
+  const onChangeInput = ({ target }) => {
+    const { value } = target;
     setSearch(value);
     updateSearchValue(value);
   };
@@ -39,9 +42,7 @@ function Search() {
       <SearchIcon width={22} height={22} className={s.iconSearch} />
       <input
         ref={inputRef}
-        onChange={({ target }) => {
-          onChangeInput(target.value);
-        }}
+        onChange={onChangeInput}
         value={search}
         className={s.input}
         placeholder="Пошук піци..."

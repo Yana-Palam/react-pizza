@@ -12,6 +12,7 @@ import { selectSearchValue } from "../../redux/search/searchSelectors";
 import {
   selectPizzasItems,
   selectIsLoading,
+  selectError,
 } from "../../redux/pizzas/pizzasSelectors";
 
 import Categories from "../../components/Categories";
@@ -32,6 +33,7 @@ function HomePage() {
   const searchValue = useSelector(selectSearchValue);
   const items = useSelector(selectPizzasItems);
   const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   const getPizzas = async (categoryId, sortValue, searchValue) => {
     dispatch(fetchPizzas({ categoryId, sortValue, searchValue }));
@@ -67,6 +69,11 @@ function HomePage() {
     }
   }, [categoryId, sortValue, searchValue]);
 
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const skeletons = [...new Array(8)].map((item, index) => (
+    <Skeleton key={index} />
+  ));
+
   return (
     <>
       <div className="content__top">
@@ -74,11 +81,28 @@ function HomePage() {
         <Sort />
       </div>
       <h2 className="content__title">Всі піци</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(8)].map((item, index) => <Skeleton key={index} />)
-          : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-      </div>
+
+      {error ? (
+        <div className="content__error-info">
+          <h2>Виникла помилка 😕</h2>
+          <p>
+            На жаль, не вдалося одержати піци. Спробуйте повторити спробу
+            пізніше.
+          </p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {isLoading ? (
+            skeletons
+          ) : items.length > 0 ? (
+            pizzas
+          ) : (
+            <div className="content__error-info">
+              <p>На жаль, за Вашим запитом не знайдено піц.</p>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }

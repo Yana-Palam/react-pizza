@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Search from "../Search";
@@ -6,16 +6,15 @@ import logoSvg from "../../assets/img/pizza-logo.svg";
 import SvgCart from "../svg/SvgCart";
 
 import {
-  selectCartItems,
   selectTotalPrice,
+  selectTotalItemsCount,
 } from "../../redux/cart/cartSelectors";
 
 function Header() {
-  const cartItems = useSelector(selectCartItems);
+  const { pathname } = useLocation();
+
   const cartTotalPrice = useSelector(selectTotalPrice);
-  const totalItemsCount = cartItems.reduce((totalCount, item) => {
-    return totalCount + item.count;
-  }, 0);
+  const totalItemsCount = useSelector(selectTotalItemsCount);
 
   return (
     <div className="header">
@@ -30,14 +29,30 @@ function Header() {
             </div>
           </div>
         </Link>
-        <Search />
-        <div className="header__cart">
-          <Link to="/cart" className="button button--cart">
-            <span>{cartTotalPrice} ₴</span>
-            <div className="button__delimiter"></div>
-            <SvgCart />
-            <span>{totalItemsCount}</span>
-          </Link>
+        <div className="header__wrap">
+          {pathname !== "/cart" && (
+            <>
+              <Search />
+              <div className="header__cart">
+                <Link to="/cart" className="button button--cart">
+                  <span>{cartTotalPrice} ₴</span>
+                  <div className="button__delimiter"></div>
+                  <SvgCart />
+                  <span>{totalItemsCount}</span>
+                </Link>
+              </div>
+            </>
+          )}
+          {/* {pathname !== "/cart" && (
+            <div className="header__cart">
+              <Link to="/cart" className="button button--cart">
+                <span>{cartTotalPrice} ₴</span>
+                <div className="button__delimiter"></div>
+                <SvgCart />
+                <span>{totalItemsCount}</span>
+              </Link>
+            </div>
+          )} */}
         </div>
       </div>
     </div>
