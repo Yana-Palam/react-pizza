@@ -3,7 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectSort } from "../../redux/filters/filtersSelectors";
 import { setSortValue } from "../../redux/filters/filtersSlice";
 
-const sortValues = [
+import { SortType } from "../../redux/pizzas/pizzasOperations";
+
+type SortItem = {
+  name: string;
+  sortProperty: "rating" | "title" | "price";
+  order: "desc" | "asc";
+};
+
+const sortValues: SortItem[] = [
   {
     name: "популярністю (за зменшенням)",
     sortProperty: "rating",
@@ -36,17 +44,18 @@ const sortValues = [
   },
 ];
 
-function Sort() {
+const Sort: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
 
   const sortValue = useSelector(selectSort);
 
   useEffect(() => {
-    const onClickOutside = (e) => {
-      if (e.target.offsetParent !== sortRef.current) {
+    const onClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.offsetParent !== sortRef.current) {
         setIsOpen(false);
       }
     };
@@ -58,7 +67,7 @@ function Sort() {
     };
   }, []);
 
-  const onSelectValue = (value) => {
+  const onSelectValue = (value: SortType) => {
     dispatch(setSortValue(value));
     setIsOpen(false);
   };
@@ -114,5 +123,5 @@ function Sort() {
       )}
     </div>
   );
-}
+};
 export default Sort;

@@ -5,8 +5,25 @@ import SvgMinus from "../svg/SvgMinus";
 import SvgPlus from "../svg/SvgPlus";
 import SvgCircle from "../svg/SvgCircle";
 
-function CartItem({ pizza }) {
-  const { id, count, title, imageUrl, price, type, size } = pizza;
+type CartItemProps = {
+  id: string;
+  count: number;
+  title: string;
+  imageUrl: string;
+  price: number;
+  type: string;
+  size: number;
+};
+
+const CartItem: React.FC<CartItemProps> = ({
+  id,
+  count,
+  title,
+  imageUrl,
+  price,
+  type,
+  size,
+}) => {
   const dispatch = useDispatch();
   const isBtnDisabled = count === 1;
 
@@ -61,6 +78,6 @@ function CartItem({ pizza }) {
       </div>
     </div>
   );
-}
+};
 
 export default CartItem;

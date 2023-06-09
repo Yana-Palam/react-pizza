@@ -4,9 +4,9 @@ import Cart from "../../components/Cart/Cart";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../../redux/cart/cartSelectors";
 
-function CartPage() {
+const CartPage: React.FC = () => {
   const items = useSelector(selectCartItems);
   return <>{items.length === 0 ? <EmptyCart /> : <Cart />}</>;
-}
+};
 
 export default CartPage;

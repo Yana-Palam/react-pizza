@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useNavigation } from "react-router-dom";
 import Header from "../Header";
 
-function Layout() {
+const Layout: React.FC = () => {
   const { state } = useNavigation();
   return (
     <>
@@ -19,5 +19,5 @@ function Layout() {
       </div>
     </>
   );
-}
+};
 export default Layout;

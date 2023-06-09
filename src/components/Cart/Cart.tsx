@@ -12,9 +12,19 @@ import SvgCartClear from "../svg/SvgCartClear";
 import SvgCart from "../svg/SvgCart";
 import SvgGoBack from "../svg/SvgGoBack";
 
-function Cart() {
+type Item = {
+  id: string;
+  count: number;
+  title: string;
+  imageUrl: string;
+  price: number;
+  type: string;
+  size: number;
+};
+
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const items = useSelector(selectCartItems);
+  const items: Item[] = useSelector(selectCartItems);
   const totalItemsCount = useSelector(selectTotalItemsCount);
   const totalPrice = useSelector(selectTotalPrice);
 
@@ -38,9 +48,23 @@ function Cart() {
           </div>
         </div>
         <div className="content__items">
-          {items.map((item, index) => (
-            <CartItem pizza={item} key={index} />
-          ))}
+          {items.map(
+            (
+              { id, count, title, imageUrl, price, type, size },
+              index: number
+            ) => (
+              <CartItem
+                id={id}
+                count={count}
+                title={title}
+                imageUrl={imageUrl}
+                price={price}
+                type={type}
+                size={size}
+                key={index}
+              />
+            )
+          )}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
@@ -70,6 +94,6 @@ function Cart() {
       </div>
     </div>
   );
-}
+};
 
 export default Cart;
