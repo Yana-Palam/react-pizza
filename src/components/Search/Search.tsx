@@ -57,6 +57,7 @@ const Search: React.FC = () => {
         value={search}
         className={s.input}
         placeholder="Пошук піци..."
+        name="search"
       />
       {search && (
         <button

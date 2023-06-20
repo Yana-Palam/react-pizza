@@ -7,6 +7,7 @@ import {
 import React, { lazy, Suspense } from "react";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Layout from "./components/Layout/Layout";
+import Loader from "./components/Loader/Loader";
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const CartPage = lazy(() => import("./pages/CartPage/CartPage"));
 
@@ -21,7 +22,7 @@ const App: React.FC = () => {
           {
             index: true,
             element: (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loader />}>
                 <HomePage />
               </Suspense>
             ),
@@ -29,7 +30,7 @@ const App: React.FC = () => {
           {
             path: "/cart",
             element: (
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loader />}>
                 <CartPage />
               </Suspense>
             ),

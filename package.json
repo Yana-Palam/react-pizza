@@ -4,35 +4,26 @@
   "private": true,
   "homepage": "https://yana-palam.github.io/react-pizza/",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.3",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^29.5.2",
-    "@types/node": "^20.2.5",
-    "@types/react": "^18.2.8",
-    "@types/react-dom": "^18.2.4",
+    "cra-template-typescript": "1.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
+    "sass": "^1.59.3",
+    "react-loader-spinner": "^5.3.4",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.9.0",
     "axios": "^1.3.4",
     "gh-pages": "^5.0.0",
     "lodash.debounce": "^4.0.8",
-    "qs": "^6.11.1",
-    "react": "^18.2.0",
-    "react-content-loader": "^6.2.1",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.9.0",
-    "react-scripts": "5.0.1",
-    "sass": "^1.59.3",
-    "typescript": "^5.1.3",
-    "web-vitals": "^2.1.4"
+    "@reduxjs/toolkit": "^1.9.5",
+    "react-content-loader": "^6.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build",
-    "predeploy": "npm run build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -51,5 +42,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.12",
+    "@types/react-dom": "^18.2.5"
   }
 }

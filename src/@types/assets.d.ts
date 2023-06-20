@@ -1,22 +1,27 @@
-declare module "*.svg" {
-  const content: any;
-  export default content;
-}
+// import { PureComponent, SVGProps } from "react";
 
-declare module "*.png" {
-  const content: any;
-  export default content;
-}
+// declare module "**/*.svg" {
+//   const content: any;
+//   export default content;
+// }
 
-declare module "*.scss" {
-  const content: any;
-  export default content;
-}
+// declare module "*.png" {
+//   const content: any;
+//   export default content;
+// }
 
-declare module "*.svg" {
-  import React from "react";
+// declare module "*.module.scss" {
+//   const content: Record<string, string>;
+//   export default content;
+// }
+// declare module "*.scss" {
+//   const content: Record<string, string>;
+//   export default content;
+// }
 
-  export const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>;
-  const src: string;
-  export default src;
-}
+// declare module "**/*.svg" {
+//   export class ReactComponent extends PureComponent<SVGProps<SVGSVGElement>> {}
+// }
+
+// declare module "**/*.jpeg";
+// declare module "**/*.jpg";
